@@ -23,6 +23,15 @@ app.get("/findBooking", (req, res) => {
   });
 });
 
+app.get("/findBookingBy", (req, res) => {
+  // console.log(req.query);
+  const sql = `SELECT * FROM booking WHERE tanggal = ${req.query.tanggal} AND waktu = ${req.query.waktu}`;
+  db.query(sql, (error, result) => {
+    console.log(error);
+    response(200, result, "Get All Data Booking Based on User", res);
+  });
+});
+
 app.get("/findUser", (req, res) => {
   const sql = `SELECT * FROM user WHERE id_user =${req.query.id}`;
   db.query(sql, (error, result) => {
@@ -33,9 +42,10 @@ app.get("/findUser", (req, res) => {
 
 app.post("/booking", (req, res) => {
   const data = req.body;
+  console.log(data);
   const sql =
-    "INSERT INTO booking (id_user,tanggal,waktu,hair_spesialis) VALUES (?,?,?,?)";
-  const values = [data.id_user, data.tanggal, data.waktu, data.hair_spesialis];
+    "INSERT INTO booking (id_user,tanggal,waktu,id_hairstylist) VALUES (?,?,?,?)";
+  const values = [data.id_user, data.tanggal, data.waktu, data.id_hairstylist];
 
   db.query(sql, values, (error, result) => {
     if (error) {
