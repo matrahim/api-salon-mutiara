@@ -15,6 +15,14 @@ app.get("/findAll", (req, res) => {
   });
 });
 
+app.get("/hairstyle", (req, res) => {
+  const sql = `SELECT * FROM hairstyle`;
+  db.query(sql, (error, result) => {
+    console.log(error);
+    response(200, result, "Get All Data Hairstyle", res);
+  });
+});
+
 app.get("/findBooking", (req, res) => {
   const sql = `SELECT * FROM booking WHERE id_user =${req.query.id}`;
   db.query(sql, (error, result) => {
