@@ -24,7 +24,7 @@ app.get("/hairstyle", (req, res) => {
 });
 
 app.get("/findBooking", (req, res) => {
-  const sql = `SELECT * FROM booking WHERE id_user =${req.query.id}`;
+  const sql = `SELECT * FROM booking left join hairstyle on booking.id_hairstylist=hairstyle.id_hairstylist WHERE id_user=${req.query.id}`;
   db.query(sql, (error, result) => {
     console.log(error);
     response(200, result, "Get All Data Booking Based on User", res);
