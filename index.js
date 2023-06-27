@@ -48,6 +48,14 @@ app.get("/findUser", (req, res) => {
   });
 });
 
+app.get("/user", (req, res) => {
+  const sql = `SELECT * FROM user WHERE email =${req.query.email} AND password=${req.query.password}`;
+  db.query(sql, (error, result) => {
+    console.log(error);
+    response(200, result, "Get Data User", res);
+  });
+});
+
 app.post("/booking", (req, res) => {
   const data = req.body;
   console.log(data);
