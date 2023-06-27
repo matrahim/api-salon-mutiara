@@ -15,8 +15,16 @@ app.get("/findAll", (req, res) => {
   });
 });
 
+app.get("/hairstyle", (req, res) => {
+  const sql = `SELECT * FROM hairstyle`;
+  db.query(sql, (error, result) => {
+    console.log(error);
+    response(200, result, "Get All Data Hairstyle", res);
+  });
+});
+
 app.get("/findBooking", (req, res) => {
-  const sql = `SELECT * FROM booking WHERE id_user =${req.query.id}`;
+  const sql = `SELECT * FROM booking left join hairstyle on booking.id_hairstylist=hairstyle.id_hairstylist WHERE id_user=${req.query.id} ORDER BY booking.tanggal DESC, booking.waktu DESC;`;
   db.query(sql, (error, result) => {
     console.log(error);
     response(200, result, "Get All Data Booking Based on User", res);
@@ -37,6 +45,14 @@ app.get("/findUser", (req, res) => {
   db.query(sql, (error, result) => {
     console.log(error);
     response(200, result, "Get All Data User", res);
+  });
+});
+
+app.get("/user", (req, res) => {
+  const sql = `SELECT * FROM user WHERE email =${req.query.email} AND password=${req.query.password}`;
+  db.query(sql, (error, result) => {
+    console.log(error);
+    response(200, result, "Get Data User", res);
   });
 });
 
