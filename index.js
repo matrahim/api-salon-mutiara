@@ -40,7 +40,7 @@ app.get("/findBooking", (req, res) => {
 
 app.get("/booking", (req, res) => {
   console.log(req.query.tanggal);
-  const sql = `SELECT * FROM booking WHERE tanggal=${req.query.tanggal} ORDER BY tanggal DESC`;
+  const sql = `SELECT * FROM booking left join hairstyle on booking.id_hairstylist=hairstyle.id_hairstylist WHERE tanggal=${req.query.tanggal} ORDER BY tanggal DESC`;
   db.query(sql, (error, result) => {
     console.log(error);
     response(200, result, "Get All Data Booking Based on User", res);
