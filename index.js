@@ -31,7 +31,7 @@ app.get("/layanan", (req, res) => {
 });
 
 app.get("/findBooking", (req, res) => {
-  const sql = `SELECT * FROM booking left join hairstyle on booking.id_hairstylist=hairstyle.id_hairstylist WHERE id_user=${req.query.id} ORDER BY booking.tanggal DESC, booking.waktu DESC;`;
+  const sql = `SELECT * FROM booking left join hairstyle on booking.id_hairstylist=hairstyle.id_hairstylist left join layanan on booking.id_layanan=layanan.id_layanan WHERE id_user=${req.query.id} ORDER BY booking.tanggal DESC, booking.waktu DESC;`;
   db.query(sql, (error, result) => {
     console.log(error);
     response(200, result, "Get All Data Booking Based on User", res);
@@ -40,7 +40,7 @@ app.get("/findBooking", (req, res) => {
 
 app.get("/booking", (req, res) => {
   console.log(req.query.tanggal);
-  const sql = `SELECT * FROM booking left join hairstyle on booking.id_hairstylist=hairstyle.id_hairstylist left join user on user.id_user=booking.id_user WHERE tanggal=${req.query.tanggal} ORDER BY tanggal DESC,  booking.waktu DESC;`;
+  const sql = `SELECT * FROM booking left join hairstyle on booking.id_hairstylist=hairstyle.id_hairstylist left join layanan on booking.id_layanan=layanan.id_layanan left join user on user.id_user=booking.id_user WHERE tanggal=${req.query.tanggal} ORDER BY tanggal DESC,  booking.waktu DESC;`;
   db.query(sql, (error, result) => {
     console.log(error);
     response(200, result, "Get All Data Booking Based on User", res);
@@ -75,8 +75,14 @@ app.post("/booking", (req, res) => {
   const data = req.body;
   console.log(data);
   const sql =
-    "INSERT INTO booking (id_user,tanggal,waktu,id_hairstylist) VALUES (?,?,?,?)";
-  const values = [data.id_user, data.tanggal, data.waktu, data.id_hairstylist];
+    "INSERT INTO booking (id_user,tanggal,waktu,id_hairstylist, id_layanan) VALUES (?,?,?,?,?)";
+  const values = [
+    data.id_user,
+    data.tanggal,
+    data.waktu,
+    data.id_hairstylist,
+    data.id_layanan,
+  ];
 
   db.query(sql, values, (error, result) => {
     if (error) {
