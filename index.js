@@ -29,6 +29,13 @@ app.get("/layanan", (req, res) => {
     response(200, result, "Get All Data Layanan", res);
   });
 });
+app.get("/layanan2", (req, res) => {
+  const sql = `SELECT layanan2 FROM layanan`;
+  db.query(sql, (error, result) => {
+    console.log(error);
+    response(200, result, "Get All Data Layanan2", res);
+  });
+});
 
 app.get("/findBooking", (req, res) => {
   const sql = `SELECT * FROM booking left join hairstyle on booking.id_hairstylist=hairstyle.id_hairstylist left join layanan on booking.id_layanan=layanan.id_layanan WHERE id_user=${req.query.id} ORDER BY booking.tanggal DESC, booking.waktu DESC;`;
